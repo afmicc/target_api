@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: users
@@ -25,13 +23,13 @@
 #  updated_at             :datetime         not null
 #
 
-class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :trackable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-  include DeviseTokenAuth::Concerns::User
+require 'rails_helper'
 
-  validates :name, :email, presence: true
-  validates :uid, uniqueness: { case_sensitive: false, scope: :provider }
+describe User, type: :model do
+  subject { build(:user) }
+
+  it { is_expected.to validate_presence_of(:name); }
+  it { is_expected.to validate_presence_of(:email) }
+  it { is_expected.to validate_presence_of(:password) }
+  it { is_expected.to validate_uniqueness_of(:uid).case_insensitive.scoped_to(:provider) }
 end
