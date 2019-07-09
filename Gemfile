@@ -3,6 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
+gem 'devise', '~> 4.6', '>= 4.6.2'
+gem 'devise_token_auth', '~> 1.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record
@@ -30,9 +32,14 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   gem 'byebug', '~> 11.0', '>= 11.0.1'
+  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
+  gem 'faker', '~> 1.9', '>= 1.9.6'
+  gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
+  gem 'shoulda-matchers', '~> 4.1'
 end
 
 group :development do
+  gem 'annotate', '~> 2.7', '>= 2.7.5'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'reek', '~> 5.4'
   gem 'rubocop', '~> 0.72.0'
