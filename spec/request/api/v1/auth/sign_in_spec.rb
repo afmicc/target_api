@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'faker'
 
 describe 'Auth', type: :request do
   let!(:user) { create(:user) }
