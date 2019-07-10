@@ -20,4 +20,18 @@ module Helpers
       'token_type': token_type
     }
   end
+
+  def last_email
+    ActionMailer::Base.deliveries.last
+  end
+
+  def email_confirmation_url(email)
+    email.body.match(/href="(?<url>.+?)">/)[:url]
+  end
+
+  def replace_confirmation_token(url)
+    url.gsub!(/confirmation_token\=([^\&]+)/) do |m|
+      m.gsub!(Regexp.last_match(1), Faker::Alphanumeric.alphanumeric(20))
+    end
+  end
 end
