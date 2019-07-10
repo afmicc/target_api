@@ -10,40 +10,29 @@ describe 'Auth', type: :request do
       password_confirmation: user.password
     }
   end
+  let(:confirmation_url) { email_confirmation_url last_email }
 
   describe 'POST api/v1/auth/confirmation' do
     before do
       post api_v1_user_registration_path sign_up_params
-      @confirmation_url = email_confirmation_url last_email
     end
 
     context 'when the request is succesful' do
-      before do
-        get @confirmation_url
-      end
-
       it 'is expected a successful response' do
+        get confirmation_url
         expect(response).to have_http_status(:found)
       end
 
       it 'is expected that user is confirmed' do
-        expect(User.last.confirmed?).to eq true
+        expect { get confirmation_url }.to change { User.last.confirmed? }.from(false).to(true)
       end
     end
 
     context 'when the request data is not valid' do
-      before do
-        @confirmation_url = replace_confirmation_token(@confirmation_url)
-      end
+      let(:new_confirmation_url) { replace_confirmation_token confirmation_url }
 
       it 'is expected a fail response' do
-        expect { get @confirmation_url }.to raise_error(ActionController::RoutingError)
-      end
-    end
-
-    context 'when the request is not called' do
-      it 'is expected that user is not confirmed' do
-        expect(User.last.confirmed?).to eq false
+        expect { get new_confirmation_url }.to raise_error(ActionController::RoutingError)
       end
     end
   end
