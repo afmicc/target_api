@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Auth', type: :request do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user_confirmed) }
   let(:sign_in_params) do
     {
       email: user.email,
