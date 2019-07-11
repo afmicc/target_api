@@ -24,8 +24,8 @@ module Helpers
   end
 
   def replace_confirmation_token(url)
-    url.gsub!(/confirmation_token\=([^\&]+)/) do |m|
-      m.gsub!(Regexp.last_match(1), Faker::Alphanumeric.alphanumeric(20))
+    url.gsub!(/confirmation_token\=([^\&]+)/) do |match|
+      match.gsub!(Regexp.last_match(1), Faker::Alphanumeric.alphanumeric(20))
     end
   end
 end
