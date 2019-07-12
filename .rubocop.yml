@@ -14,6 +14,7 @@ Metrics/AbcSize:
   # a Float.
   Max: 17
   Exclude:
+    - 'db/migrate/**.rb'
 
 Metrics/BlockLength:
   CountComments: false  # count full line comments?
@@ -52,6 +53,9 @@ Metrics/LineLength:
     - http
     - https
   IgnoredPatterns: ['\A#']
+  Exclude:
+    - 'db/migrate/**.rb'
+
 
 Metrics/ParameterLists:
   Max: 5
@@ -67,4 +71,8 @@ Style/ModuleFunction:
   Enabled: false
 
 Lint/UselessAssignment:
+  Exclude: false
+
+Style/NumericLiterals:
   Exclude:
+    - 'db/**'
