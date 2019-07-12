@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Auth', type: :request do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user, :confirmed) }
   let!(:auth_header) { user.create_new_auth_token }
 
   describe 'DELETE api/v1/auth/sign_out' do

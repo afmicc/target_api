@@ -24,14 +24,6 @@ describe 'Auth', type: :request do
         end.to change(User, :count).by(1)
       end
 
-      it 'is expected that response contains some headers' do
-        post api_v1_user_registration_path params
-        expect(json_value(response.headers, 'access-token')).not_to be_nil
-        expect(json_value(response.headers, 'client')).not_to be_nil
-        expect(json_value(response.headers, 'expiry')).not_to be_nil
-        expect(json_value(response.headers, 'uid')).to eq user.email
-      end
-
       it 'is expected that response contains some body data' do
         post api_v1_user_registration_path params
         body = JSON response.body
@@ -40,6 +32,11 @@ describe 'Auth', type: :request do
         expect(json_value(body, 'data', 'uid')).to eq user.email
         expect(json_value(body, 'data', 'email')).to eq user.email
         expect(json_value(body, 'data', 'name')).to eq user.name
+      end
+
+      it 'is expected that confirmation mail is sent' do
+        post api_v1_user_registration_path params
+        expect(last_email).not_to be_nil
       end
     end
 
