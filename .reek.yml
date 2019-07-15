@@ -25,7 +25,7 @@ detectors:
 
   UtilityFunction:
     exclude:
-      - "Helpers#json_value"
+      - "Helpers"
 
 ### Directory specific configuration
 
@@ -56,3 +56,4 @@ exclude_paths:
   - lib/rake/legacy_tasks
   - lib/smelly.rb  
   - db/migrate
+  - vendor

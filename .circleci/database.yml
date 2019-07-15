@@ -1,0 +1,8 @@
+test:
+  adapter: postgresql
+  encoding: UTF8
+  pool: 5
+  host: localhost
+  port: 5432
+  username: target_api_user
+  database: target_api_test
