@@ -12,13 +12,20 @@ detectors:
     exclude:
       - "MyWorker#self.class_method" # should be refactored
       - "AnotherWorker#instance_method" # should be refactored as well
-  
+
+  UncommunicativeModuleName:
+    exclude:
+      - "Api::V1"
   # A lot of smells allow fine tuning their configuration. You can look up all available options
   # in the corresponding smell documentation in /docs. In most cases you probably can just go
   # with the defaults as documented in defaults.reek.yml.
   DataClump:
     max_copies: 3
     min_clump_size: 3
+
+  UtilityFunction:
+    exclude:
+      - "Helpers#json_value"
 
 ### Directory specific configuration
 
@@ -29,6 +36,7 @@ detectors:
 # Note that we only allow configuration on a directory level, not a file level,
 # so all paths have to point to directories.
 # A Dir.glob pattern can be used.
+
 directories:
   "web_app/app/controllers":
     NestedIterators:
@@ -47,3 +55,4 @@ exclude_paths:
   - lib/legacy
   - lib/rake/legacy_tasks
   - lib/smelly.rb  
+  - db/migrate
