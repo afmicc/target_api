@@ -5,6 +5,7 @@ Rails.application.routes.draw do
                                   at: 'auth',
                                   controllers: { registrations: 'api/v1/registrations' }
       resources :targets, only: %i[index create]
+      resources :users, only: %i[update]
     end
   end
 end
