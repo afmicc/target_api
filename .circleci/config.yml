@@ -56,15 +56,7 @@ jobs:
       # run tests!
       - run:
           name: run tests
-          command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-              circleci tests split --split-by=timings)"
-
-            bundle exec rspec \
-              --out /tmp/test-results/rspec.xml \
-              --format progress \
-              $TEST_FILES
+          command: RAILS_ENV=test bundle exec rspec
 
       # run code_analysis!
       - run:

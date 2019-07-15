@@ -7,7 +7,8 @@ describe 'Auth', type: :request do
       name: user.name,
       email: user.email,
       password: user.password,
-      password_confirmation: user.password
+      password_confirmation: user.password,
+      gender: user.gender
     }
   end
   let(:confirmation_url) { email_confirmation_url last_email }

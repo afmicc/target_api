@@ -7,7 +7,8 @@ describe 'Auth', type: :request do
       name: user.name,
       email: user.email,
       password: user.password,
-      password_confirmation: user.password
+      password_confirmation: user.password,
+      gender: user.gender
     }
   end
 
@@ -32,6 +33,7 @@ describe 'Auth', type: :request do
         expect(json_value(body, 'data', 'uid')).to eq user.email
         expect(json_value(body, 'data', 'email')).to eq user.email
         expect(json_value(body, 'data', 'name')).to eq user.name
+        expect(json_value(body, 'data', 'gender')).to eq user.gender
       end
 
       it 'is expected that confirmation mail is sent' do
@@ -42,22 +44,27 @@ describe 'Auth', type: :request do
 
     context 'when the request is fail' do
       it 'requires the name parameter' do
-        params[:name] = ''
+        params.delete :name
         post api_v1_user_registration_path params
         expect(response).to have_http_status(:unprocessable_entity)
       end
       it 'requires the email parameter' do
-        params[:email] = ''
+        params.delete :email
         post api_v1_user_registration_path params
         expect(response).to have_http_status(:unprocessable_entity)
       end
       it 'requires the password parameter' do
-        params[:password] = ''
+        params.delete :password
         post api_v1_user_registration_path params
         expect(response).to have_http_status(:unprocessable_entity)
       end
       it 'requires the password_confirmation parameter' do
         params[:password_confirmation] = ''
+        post api_v1_user_registration_path params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+      it 'requires the gender parameter' do
+        params.delete :gender
         post api_v1_user_registration_path params
         expect(response).to have_http_status(:unprocessable_entity)
       end
