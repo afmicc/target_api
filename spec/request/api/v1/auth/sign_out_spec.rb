@@ -13,7 +13,7 @@ describe 'Auth', type: :request do
         expect(response).to be_successful
       end
 
-      it 'is expected a unauthorized response to other queries' do
+      it 'is expected an unauthorized response to other queries' do
         get api_v1_auth_validate_token_path, headers: auth_header
         expect(response).to have_http_status(:unauthorized)
       end
