@@ -23,6 +23,7 @@
 #  tokens                 :json
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  gender                 :integer          not null
 #
 
 class User < ActiveRecord::Base
@@ -33,6 +34,9 @@ class User < ActiveRecord::Base
          :confirmable
   include DeviseTokenAuth::Concerns::User
 
+  enum gender: { male: 0, female: 1 }
+
   validates :name, :email, presence: true
   validates :uid, uniqueness: { case_sensitive: false, scope: :provider }
+  validates :gender, presence: true, inclusion: { in: genders.keys }
 end
