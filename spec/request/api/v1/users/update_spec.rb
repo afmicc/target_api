@@ -29,7 +29,6 @@ describe 'Update Users', type: :request do
       it 'is expected that email is ignored' do
         body = JSON response.body
         expect(json_value(body, 'id')).not_to be_nil
-        expect(json_value(body, 'uid')).to eq user.email
         expect(json_value(body, 'email')).to eq user.email
       end
     end
