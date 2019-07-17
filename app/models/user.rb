@@ -39,4 +39,6 @@ class User < ActiveRecord::Base
   validates :name, :email, presence: true
   validates :uid, uniqueness: { case_sensitive: false, scope: :provider }
   validates :gender, presence: true, inclusion: { in: genders.keys }
+
+  has_many :targets, dependent: :destroy
 end
