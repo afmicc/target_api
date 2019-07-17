@@ -8,7 +8,8 @@ module Api
       private
 
       def show_errors(exception)
-        render json: { error: exception.message, status: :unprocessable_entity },
+        logger.error exception.message
+        render json: { error: I18n.t('api.errors.invalid_model'), status: :unprocessable_entity },
                status: :unprocessable_entity
       end
     end

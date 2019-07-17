@@ -5,7 +5,7 @@ describe 'Create Targets', type: :request do
   let!(:auth_header) { user.create_new_auth_token }
   let(:params) do
     {
-      target: build(:target).attributes
+      target: attributes_for(:target)
     }
   end
 
@@ -28,15 +28,15 @@ describe 'Create Targets', type: :request do
       it 'is expected that response contains some body data' do
         body = JSON response.body
         decimal_scale = 6
-        expect(json_value(body, 'id')).not_to be_nil
-        expect(json_value(body, 'user_id')).not_to be_nil
-        expect(json_value(body, 'area_lenght')).to eq params[:target]['area_lenght']
-        expect(json_value(body, 'title')).to eq params[:target]['title']
-        expect(json_value(body, 'topic')).to eq params[:target]['topic']
-        expect(json_value(body, 'latitude').to_d.round(decimal_scale))
-          .to eq params[:target]['latitude'].round(decimal_scale)
-        expect(json_value(body, 'longitude').to_d.round(decimal_scale))
-          .to eq params[:target]['longitude'].round(decimal_scale)
+        expect(json_value(body, 'target', 'id')).not_to be_nil
+        expect(json_value(body, 'target', 'user_id')).not_to be_nil
+        expect(json_value(body, 'target', 'area_lenght')).to eq params[:target][:area_lenght]
+        expect(json_value(body, 'target', 'title')).to eq params[:target][:title]
+        expect(json_value(body, 'target', 'topic')).to eq params[:target][:topic]
+        expect(json_value(body, 'target', 'latitude').to_d.round(decimal_scale))
+          .to eq params[:target][:latitude].to_d.round(decimal_scale)
+        expect(json_value(body, 'target', 'longitude').to_d.round(decimal_scale))
+          .to eq params[:target][:longitude].to_d.round(decimal_scale)
       end
     end
 

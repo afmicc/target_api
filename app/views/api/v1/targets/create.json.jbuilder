@@ -1,1 +1,1 @@
-json.partial! 'info', target: @target
+json.target @target, partial: 'info', as: :target

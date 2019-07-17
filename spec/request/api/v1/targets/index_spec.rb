@@ -22,7 +22,8 @@ describe 'List Targets', type: :request do
       end
 
       it 'is expected that response contains at least some body data' do
-        last = (JSON response.body).last
+        body = (JSON response.body)
+        last = json_value(body, 'targets').last
         expect(json_value(last, 'id')).not_to be_nil
         expect(json_value(last, 'user_id')).not_to be_nil
         expect(json_value(last, 'area_lenght')).to eq target.area_lenght
