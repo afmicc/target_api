@@ -34,3 +34,4 @@ en:
   api:
     errors:
       invalid_model: 'Some fields are invalid'
+      not_found: 'The resource was not found'
