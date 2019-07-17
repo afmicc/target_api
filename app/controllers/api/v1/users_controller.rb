@@ -1,11 +1,10 @@
 module Api
   module V1
-    class UsersController < ApplicationController
-      before_action :authenticate_api_v1_user!
-
+    class UsersController < ApiController
       def update
         current_api_v1_user.update!(update_params)
-        render json: current_api_v1_user, status: :ok
+        @user = current_api_v1_user
+        render :show
       end
 
       private

@@ -7,7 +7,7 @@ describe 'List Targets', type: :request do
 
   describe 'GET api/v1/targets' do
     before do
-      get api_v1_targets_path, headers: auth_header, as: :json
+      get api_v1_targets_path, headers: auth_header
     end
 
     context 'when the request is succesful' do
@@ -35,7 +35,7 @@ describe 'List Targets', type: :request do
 
     context 'when the user is not logged in' do
       it 'is expected an unauthorized response' do
-        get api_v1_targets_path, as: :json
+        get api_v1_targets_path
         expect(response).to have_http_status(:unauthorized)
       end
     end

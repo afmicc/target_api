@@ -1,8 +1,6 @@
 module Api
   module V1
     class TargetsController < ApiController
-      before_action :authenticate_api_v1_user!
-
       def index
         @targets = current_api_v1_user.targets
       end
