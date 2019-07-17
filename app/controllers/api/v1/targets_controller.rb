@@ -11,9 +11,9 @@ module Api
       end
 
       def destroy
-        @target = current_api_v1_user.targets.find(params[:id])
-        @target.destroy
-        render :show
+        target = current_user.targets.find(params[:id])
+        target.destroy!
+        head :no_content
       end
 
       private

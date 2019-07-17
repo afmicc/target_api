@@ -5,6 +5,10 @@ module Helpers
     value
   end
 
+  def auth_header
+    user.create_new_auth_token
+  end
+
   def auth_user_header(headers)
     {
       'access-token': json_value(headers, 'access-token'),

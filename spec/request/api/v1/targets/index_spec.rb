@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe 'List Targets', type: :request do
   let!(:user) { create(:user, :confirmed) }
-  let!(:auth_header) { user.create_new_auth_token }
   let!(:target) { create(:target, user: user) }
 
   describe 'GET api/v1/targets' do
