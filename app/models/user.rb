@@ -36,9 +36,9 @@ class User < ActiveRecord::Base
 
   enum gender: { male: 0, female: 1 }
 
+  has_many :targets, dependent: :destroy
+
   validates :name, :email, presence: true
   validates :uid, uniqueness: { case_sensitive: false, scope: :provider }
   validates :gender, presence: true, inclusion: { in: genders.keys }
-
-  has_many :targets, dependent: :destroy
 end

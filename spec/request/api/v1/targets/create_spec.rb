@@ -59,5 +59,18 @@ describe 'Create Targets', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
+
+    context 'when the user already has 10 targets' do
+      let!(:user) { create(:user, :confirmed, targets_count: 10) }
+      let!(:auth_header) { user.create_new_auth_token }
+
+      before do
+        post api_v1_targets_path, params: params, headers: auth_header, as: :json
+      end
+
+      it 'is expected an error response' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
   end
 end

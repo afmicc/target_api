@@ -8,5 +8,13 @@ FactoryBot.define do
     trait :confirmed do
       confirmed_at { Faker::Date.backward(4) }
     end
+
+    transient do
+      targets_count { 5 }
+    end
+
+    after(:create) do |user, evaluator|
+      create_list(:target, evaluator.targets_count, user: user)
+    end
   end
 end

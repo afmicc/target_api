@@ -35,4 +35,5 @@ describe User, type: :model do
   it { is_expected.to validate_uniqueness_of(:uid).case_insensitive.scoped_to(:provider) }
   it { is_expected.to validate_presence_of(:gender) }
   it { is_expected.to define_enum_for(:gender).with_values(male: 0, female: 1) }
+  it { is_expected.to have_many(:targets) }
 end
