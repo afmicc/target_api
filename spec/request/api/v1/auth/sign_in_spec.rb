@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Auth', type: :request do
+describe 'Auth - sign in', type: :request do
   let!(:user) { create(:user, :confirmed) }
   let(:sign_in_params) do
     {
@@ -12,7 +12,7 @@ describe 'Auth', type: :request do
   describe 'POST api/v1/auth/sign_in' do
     context 'when the credentials are rigths' do
       before do
-        post api_v1_user_session_path sign_in_params
+        post user_session_path sign_in_params
       end
 
       it 'is expected a successful response' do
@@ -45,20 +45,20 @@ describe 'Auth', type: :request do
       context 'when credentials are missing' do
         it 'requires the email parameter' do
           sign_in_params[:email] = ''
-          post api_v1_user_session_path sign_in_params
+          post user_session_path sign_in_params
           expect(response).to have_http_status(:unauthorized)
         end
 
         it 'requires the password parameter' do
           sign_in_params[:password] = ''
-          post api_v1_user_session_path sign_in_params
+          post user_session_path sign_in_params
           expect(response).to have_http_status(:unauthorized)
         end
 
         it 'requires email and password parameters' do
           sign_in_params[:email] = ''
           sign_in_params[:password] = ''
-          post api_v1_user_session_path sign_in_params
+          post user_session_path sign_in_params
           expect(response).to have_http_status(:unauthorized)
         end
       end
@@ -66,20 +66,20 @@ describe 'Auth', type: :request do
       context 'when credentials are wrong' do
         it 'requires correct email parameter' do
           sign_in_params[:email] = Faker::Internet.email('Tester')
-          post api_v1_user_session_path sign_in_params
+          post user_session_path sign_in_params
           expect(response).to have_http_status(:unauthorized)
         end
 
         it 'requires correct password parameter' do
           sign_in_params[:password] = Faker::Internet.password(10, 20)
-          post api_v1_user_session_path sign_in_params
+          post user_session_path sign_in_params
           expect(response).to have_http_status(:unauthorized)
         end
 
         it 'requires correct email and password parameters' do
           sign_in_params[:email] = Faker::Internet.email('Tester')
           sign_in_params[:password] = Faker::Internet.password(10, 20)
-          post api_v1_user_session_path sign_in_params
+          post user_session_path sign_in_params
           expect(response).to have_http_status(:unauthorized)
         end
       end

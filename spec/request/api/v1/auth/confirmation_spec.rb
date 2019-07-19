@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Auth', type: :request do
+describe 'Auth - confirmation', type: :request do
   let(:user) { build(:user) }
   let(:sign_up_params) do
     {
@@ -15,7 +15,7 @@ describe 'Auth', type: :request do
 
   describe 'POST api/v1/auth/confirmation' do
     before do
-      post api_v1_user_registration_path sign_up_params
+      post user_registration_path sign_up_params
     end
 
     context 'when the request is succesful' do

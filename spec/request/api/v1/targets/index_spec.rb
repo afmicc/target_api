@@ -7,7 +7,7 @@ describe 'List Targets', type: :request do
 
   describe 'GET api/v1/targets' do
     before do
-      get api_v1_targets_path, headers: auth_header, as: :json
+      get api_v1_targets_path, headers: auth_header
     end
 
     context 'when the request is succesful' do
@@ -22,7 +22,8 @@ describe 'List Targets', type: :request do
       end
 
       it 'is expected that response contains at least some body data' do
-        last = (JSON response.body).last
+        body = (JSON response.body)
+        last = json_value(body, 'targets').last
         expect(json_value(last, 'id')).not_to be_nil
         expect(json_value(last, 'user_id')).not_to be_nil
         expect(json_value(last, 'area_lenght')).to eq target.area_lenght
@@ -35,7 +36,7 @@ describe 'List Targets', type: :request do
 
     context 'when the user is not logged in' do
       it 'is expected an unauthorized response' do
-        get api_v1_targets_path, as: :json
+        get api_v1_targets_path
         expect(response).to have_http_status(:unauthorized)
       end
     end

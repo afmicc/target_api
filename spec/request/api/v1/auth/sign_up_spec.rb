@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Auth', type: :request do
+describe 'Auth - sign up', type: :request do
   let(:user) { build(:user) }
   let(:params) do
     {
@@ -15,18 +15,18 @@ describe 'Auth', type: :request do
   describe 'POST api/v1/auth' do
     context 'when the request is succesful' do
       it 'is expected a successful response' do
-        post api_v1_user_registration_path params
+        post user_registration_path params
         expect(response).to be_successful
       end
 
       it 'is expected a increasement of user count by 1' do
         expect do
-          post api_v1_user_registration_path params
+          post user_registration_path params
         end.to change(User, :count).by(1)
       end
 
       it 'is expected that response contains some body data' do
-        post api_v1_user_registration_path params
+        post user_registration_path params
         body = JSON response.body
         expect(json_value(body, 'status')).to eq 'success'
         expect(json_value(body, 'data', 'id')).not_to be_nil
@@ -37,7 +37,7 @@ describe 'Auth', type: :request do
       end
 
       it 'is expected that confirmation mail is sent' do
-        post api_v1_user_registration_path params
+        post user_registration_path params
         expect(last_email).not_to be_nil
       end
     end
@@ -45,27 +45,27 @@ describe 'Auth', type: :request do
     context 'when the request is fail' do
       it 'requires the name parameter' do
         params.delete :name
-        post api_v1_user_registration_path params
+        post user_registration_path params
         expect(response).to have_http_status(:unprocessable_entity)
       end
       it 'requires the email parameter' do
         params.delete :email
-        post api_v1_user_registration_path params
+        post user_registration_path params
         expect(response).to have_http_status(:unprocessable_entity)
       end
       it 'requires the password parameter' do
         params.delete :password
-        post api_v1_user_registration_path params
+        post user_registration_path params
         expect(response).to have_http_status(:unprocessable_entity)
       end
       it 'requires the password_confirmation parameter' do
         params[:password_confirmation] = ''
-        post api_v1_user_registration_path params
+        post user_registration_path params
         expect(response).to have_http_status(:unprocessable_entity)
       end
       it 'requires the gender parameter' do
         params.delete :gender
-        post api_v1_user_registration_path params
+        post user_registration_path params
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end

@@ -1,0 +1,46 @@
+require 'rails_helper'
+
+describe 'Update Users', type: :request do
+  let!(:user) { create(:user, :confirmed) }
+  let!(:auth_header) { user.create_new_auth_token }
+  let(:params) do
+    {
+      user: build(:user).attributes
+    }
+  end
+
+  describe 'PUT api/v1/users/1' do
+    context 'when the request is succesful' do
+      before do
+        put api_v1_user_path(user), params: params, headers: auth_header
+      end
+
+      it 'is expected a successful response' do
+        expect(response).to be_successful
+      end
+
+      it 'is expected that response contains some body data' do
+        body = JSON response.body
+        expect(json_value(body, 'user', 'id')).not_to be_nil
+        expect(json_value(body, 'user', 'name')).to eq params[:user]['name']
+        expect(json_value(body, 'user', 'gender')).to eq params[:user]['gender']
+      end
+
+      it 'is expected that email is ignored' do
+        body = JSON response.body
+        expect(json_value(body, 'user', 'id')).not_to be_nil
+        expect(json_value(body, 'user', 'email')).to eq user.email
+      end
+    end
+
+    context 'when the request is fail' do
+      it 'requires the name parameter' do
+        params[:user]['name'] = nil
+        put api_v1_user_path(user), params: params, headers: auth_header
+        body = JSON response.body
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_value(body, 'error')).to eq I18n.t('api.errors.invalid_model')
+      end
+    end
+  end
+end
