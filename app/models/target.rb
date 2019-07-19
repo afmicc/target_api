@@ -37,11 +37,15 @@ class Target < ActiveRecord::Base
                        numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
   validates :longitude, presence: true,
                         numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
-  validate :validate_target_limit
+  validate :validate_target_limit, on: :create
+
+  delegate :targets, to: :user, prefix: true
 
   private
 
   def validate_target_limit
-    errors.add(:targets, 'are too many') if user && user.targets.count >= MAX_TARGETS_PER_USER
+    return if user_targets.count < MAX_TARGETS_PER_USER
+
+    errors.add(:targets, I18n.t('model.targets.errors.to_many'))
   end
 end

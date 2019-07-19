@@ -11,7 +11,7 @@ describe 'List Targets', type: :request do
 
     context 'when the request is succesful' do
       it 'is expected a successful response' do
-        expect(response).to have_http_status(:ok)
+        expect(response).to be_successful
       end
 
       it 'is expected that response contains at least one' do
