@@ -15,16 +15,20 @@ module Helpers
     }
   end
 
+  def url_query_parameters(url)
+    Rack::Utils.parse_query(URI.parse(url).query)
+  end
+
   def last_email
     ActionMailer::Base.deliveries.last
   end
 
-  def email_confirmation_url(email)
+  def email_link_url(email)
     email.body.match(/href="(?<url>.+?)">/)[:url]
   end
 
-  def replace_confirmation_token(url)
-    url.gsub!(/confirmation_token\=([^\&]+)/) do |match|
+  def replace_param_token(url, param)
+    url.gsub!(/#{param}\=([^\&]+)/) do |match|
       match.gsub!(Regexp.last_match(1), Faker::Alphanumeric.alphanumeric(20))
     end
   end
