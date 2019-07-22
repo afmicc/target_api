@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe 'Create Targets', type: :request do
   let!(:user) { create(:user, :confirmed) }
-  let!(:auth_header) { user.create_new_auth_token }
   let(:params) do
     {
       target: attributes_for(:target)
@@ -10,22 +9,20 @@ describe 'Create Targets', type: :request do
   end
 
   describe 'POST api/v1/targets' do
-    before do
-      post api_v1_targets_path, params: params, headers: auth_header
-    end
+    subject { post api_v1_targets_path, params: params, headers: auth_header }
 
     context 'when the request is succesful' do
       it 'is expected a successful response' do
+        subject
         expect(response).to have_http_status(:ok)
       end
 
       it 'is expected a increasement of targets count by 1' do
-        expect do
-          post api_v1_targets_path, params: params, headers: auth_header
-        end.to change(Target, :count).by(1)
+        expect { subject }.to change(Target, :count).by(1)
       end
 
       it 'is expected that response contains some body data' do
+        subject
         body = JSON response.body
         decimal_scale = 6
         expect(json_value(body, 'target', 'id')).not_to be_nil
@@ -37,6 +34,22 @@ describe 'Create Targets', type: :request do
           .to eq params[:target][:latitude].to_d.round(decimal_scale)
         expect(json_value(body, 'target', 'longitude').to_d.round(decimal_scale))
           .to eq params[:target][:longitude].to_d.round(decimal_scale)
+      end
+    end
+
+    context 'when the request is fail' do
+      before do
+        params[:target][:title] = ''
+        post api_v1_targets_path, params: params, headers: auth_header
+      end
+
+      it 'is expected an error response' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'is expected an error message' do
+        body = JSON response.body
+        expect(json_value(body, 'error')).to eq I18n.t('api.errors.invalid_model')
       end
     end
 

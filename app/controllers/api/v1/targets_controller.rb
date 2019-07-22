@@ -7,7 +7,16 @@ module Api
 
       def create
         @target = current_user.targets.create!(target_params)
+        render :show
       end
+
+      def destroy
+        target = current_user.targets.find(params[:id])
+        target.destroy!
+        head :no_content
+      end
+
+      private
 
       def target_params
         params.require(:target).permit(:area_lenght, :title, :topic, :latitude, :longitude)

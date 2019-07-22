@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     namespace :v1, defaults: { format: :json } do
       devise_scope :user do
         resources :users, only: %i[update]
-        resources :targets, only: %i[index create]
+        resources :targets, only: %i[index create destroy]
       end
     end
   end
