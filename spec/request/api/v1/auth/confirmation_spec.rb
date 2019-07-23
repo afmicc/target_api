@@ -11,7 +11,7 @@ describe 'Auth - confirmation', type: :request do
       gender: user.gender
     }
   end
-  let(:confirmation_url) { email_confirmation_url last_email }
+  let(:confirmation_url) { email_link_url last_email }
 
   describe 'POST api/v1/auth/confirmation' do
     before do
@@ -30,7 +30,7 @@ describe 'Auth - confirmation', type: :request do
     end
 
     context 'when the request data is not valid' do
-      let(:new_confirmation_url) { replace_confirmation_token confirmation_url }
+      let(:new_confirmation_url) { replace_param_token(confirmation_url, 'confirmation_token') }
 
       it 'is expected a fail response' do
         expect { get new_confirmation_url }.to raise_error(ActionController::RoutingError)
