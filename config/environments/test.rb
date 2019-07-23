@@ -42,6 +42,9 @@ Rails.application.configure do
       host: 'localhost:3000',
       from: 'from@example.com'
     }
+  config.active_job.queue_adapter = :test
+  config.action_mailer.perform_deliveries = :test
+  config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
