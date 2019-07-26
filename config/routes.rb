@@ -6,8 +6,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1, defaults: { format: :json } do
       devise_scope :user do
+
         resources :users, only: :update
-        resources :targets, only: %i[index create destroy]
+        resources :targets, only: %i[index create destroy] do
+          get 'compatible', on: :collection
+        end
         resources :contact_admin, only: %i[create]
         resources :general_informations, only: :show, param: :key
       end

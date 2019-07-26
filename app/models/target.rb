@@ -53,6 +53,10 @@ class Target < ActiveRecord::Base
       .near([target.latitude, target.longitude], :area_lenght, radius: target.area_lenght)
   }
 
+  def near_targets
+    Target.near_targets(self)
+  end
+
   private
 
   def validate_target_limit
@@ -62,7 +66,7 @@ class Target < ActiveRecord::Base
   end
 
   def notify_compatible
-    users = Target.near_targets(self).map(&:user)
+    users = near_targets.map(&:user)
 
     NotificationService.new.send_compatible_target(users, self) unless users.empty?
   end
