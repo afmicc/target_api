@@ -16,7 +16,7 @@ describe 'DELETE api/v1/targets/1', type: :request do
     end
   end
 
-  context 'when the target doesn\'t exist' do
+  context "when the target doesn't exist" do
     before do
       unfound_id = target.id + 1
       delete api_v1_target_path(unfound_id), headers: auth_header
@@ -32,7 +32,7 @@ describe 'DELETE api/v1/targets/1', type: :request do
     end
   end
 
-  context 'when the target wasn\'t created by user' do
+  context "when the target wasn't created by user" do
     let!(:new_user) { create(:user, :confirmed) }
     let!(:new_auth_header) { new_user.create_new_auth_token }
 
