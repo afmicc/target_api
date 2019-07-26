@@ -27,12 +27,19 @@
 require 'rails_helper'
 
 describe User, type: :model do
-  subject { build(:user) }
+  describe 'validations' do
+    subject { build(:user) }
 
-  it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_presence_of(:password) }
-  it { is_expected.to validate_uniqueness_of(:uid).case_insensitive.scoped_to(:provider) }
-  it { is_expected.to validate_presence_of(:gender) }
-  it { is_expected.to define_enum_for(:gender).with_values(male: 0, female: 1) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_presence_of(:password) }
+    it { is_expected.to validate_uniqueness_of(:uid).case_insensitive.scoped_to(:provider) }
+    it { is_expected.to validate_presence_of(:gender) }
+    it { is_expected.to define_enum_for(:gender).with_values(male: 0, female: 1) }
+  end
+  describe 'associations' do
+    subject { create(:user) }
+
+    it { is_expected.to have_many(:targets) }
+  end
 end

@@ -14,7 +14,7 @@ describe 'Create Targets', type: :request do
     context 'when the request is succesful' do
       it 'is expected a successful response' do
         subject
-        expect(response).to have_http_status(:ok)
+        expect(response).to be_successful
       end
 
       it 'is expected a increasement of targets count by 1' do
@@ -57,6 +57,48 @@ describe 'Create Targets', type: :request do
       it 'is expected an unauthorized response' do
         post api_v1_targets_path, params: params
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when the user already has #{Target::MAX_TARGETS_PER_USER - 1} targets" do
+      let!(:user) do
+        create(:user,
+               :confirmed,
+               :with_targets,
+               targets_count: (Target::MAX_TARGETS_PER_USER - 1))
+      end
+      let!(:auth_header) { user.create_new_auth_token }
+
+      subject { post api_v1_targets_path, params: params, headers: auth_header }
+
+      it 'is expected a successful response' do
+        subject
+        expect(response).to be_successful
+      end
+
+      it 'is expected a increasement of targets count by 1' do
+        expect { subject }.to change(Target, :count).by(1)
+      end
+    end
+
+    context "when the user already has #{Target::MAX_TARGETS_PER_USER} targets" do
+      let!(:user) do
+        create(:user,
+               :confirmed,
+               :with_targets,
+               targets_count: Target::MAX_TARGETS_PER_USER)
+      end
+      let!(:auth_header) { user.create_new_auth_token }
+
+      subject { post api_v1_targets_path, params: params, headers: auth_header }
+
+      it 'is expected an error response' do
+        subject
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'is expected the same count of targets' do
+        expect { subject }.to change(Target, :count).by(0)
       end
     end
   end

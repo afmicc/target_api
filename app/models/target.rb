@@ -14,6 +14,8 @@
 #
 
 class Target < ActiveRecord::Base
+  MAX_TARGETS_PER_USER = 10
+
   enum topic:
   {
     football: 0,
@@ -27,12 +29,23 @@ class Target < ActiveRecord::Base
     food: 8
   }
 
+  belongs_to :user
+
   validates :area_lenght, :title, presence: true
   validates :topic, presence: true, inclusion: { in: topics.keys }
   validates :latitude, presence: true,
                        numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
   validates :longitude, presence: true,
                         numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+  validate :validate_target_limit, on: :create
 
-  belongs_to :user
+  delegate :targets, to: :user, prefix: true
+
+  private
+
+  def validate_target_limit
+    return if user_targets.count < MAX_TARGETS_PER_USER
+
+    errors.add(:targets, I18n.t('model.targets.errors.to_many'))
+  end
 end
