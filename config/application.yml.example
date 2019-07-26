@@ -1,0 +1,13 @@
+default: &default
+  one_signal_app_id: ''
+  one_signal_api_key: ''
+  one_signal_user_auth_key: ''
+  
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

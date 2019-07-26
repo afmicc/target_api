@@ -28,8 +28,8 @@ describe 'List Targets', type: :request do
         expect(json_value(last, 'area_lenght')).to eq target.area_lenght
         expect(json_value(last, 'title')).to eq target.title
         expect(json_value(last, 'topic')).to eq target.topic
-        expect(json_value(last, 'latitude').to_d).to eq target.latitude
-        expect(json_value(last, 'longitude').to_d).to eq target.longitude
+        expect(json_value(last, 'latitude').round(10)).to eq target.latitude.round(10)
+        expect(json_value(last, 'longitude').round(10)).to eq target.longitude.round(10)
       end
     end
 
