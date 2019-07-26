@@ -3,14 +3,15 @@
 # Table name: targets
 #
 #  id          :bigint           not null, primary key
-#  user_id     :bigint
+#  user_id     :bigint           not null
 #  area_lenght :integer          not null
 #  title       :string           not null
 #  topic       :integer          not null
-#  latitude    :decimal(10, 6)   not null
-#  longitude   :decimal(10, 6)   not null
+#  latitude    :float            not null
+#  longitude   :float            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  location    :text
 #
 
 require 'rails_helper'

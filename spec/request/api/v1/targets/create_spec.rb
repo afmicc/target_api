@@ -24,16 +24,63 @@ describe 'Create Targets', type: :request do
       it 'is expected that response contains some body data' do
         subject
         body = JSON response.body
-        decimal_scale = 6
+        decimal_scale = 10
         expect(json_value(body, 'target', 'id')).not_to be_nil
         expect(json_value(body, 'target', 'user_id')).not_to be_nil
         expect(json_value(body, 'target', 'area_lenght')).to eq params[:target][:area_lenght]
         expect(json_value(body, 'target', 'title')).to eq params[:target][:title]
         expect(json_value(body, 'target', 'topic')).to eq params[:target][:topic]
-        expect(json_value(body, 'target', 'latitude').to_d.round(decimal_scale))
-          .to eq params[:target][:latitude].to_d.round(decimal_scale)
-        expect(json_value(body, 'target', 'longitude').to_d.round(decimal_scale))
-          .to eq params[:target][:longitude].to_d.round(decimal_scale)
+        expect(json_value(body, 'target', 'latitude').round(decimal_scale))
+          .to eq params[:target][:latitude].round(decimal_scale)
+        expect(json_value(body, 'target', 'longitude').round(decimal_scale))
+          .to eq params[:target][:longitude].round(decimal_scale)
+      end
+
+      context "when the created target is compatible with other user's target" do
+        let!(:new_user) { create(:user, :confirmed) }
+        let!(:new_target) do
+          build(:target,
+                user: new_user,
+                topic: params[:target][:topic],
+                latitude: params[:target][:latitude] + 0.01,
+                longitude: params[:target][:longitude])
+        end
+
+        before do
+          Support::Mock::GeocoderMock.add_stub_worthington(params[:target][:latitude],
+                                                           params[:target][:longitude])
+          Support::Mock::GeocoderMock.add_stub_new_york(new_target.latitude,
+                                                        new_target.longitude)
+          new_target.save!
+        end
+
+        it 'is expected a successful response' do
+          subject
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'is expected a increasement of delay_jobs count by 1' do
+          expect { subject }.to change(Delayed::Job, :count).by(1)
+        end
+      end
+
+      context "when the target is compatible with ones and it isn't with targets out of radius" do
+        include_context 'near targets'
+
+        it 'is expected a successful response' do
+          subject
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'is expected a increasement of delay_jobs count by 1' do
+          expect { subject }.to change(Delayed::Job, :count).by(1)
+        end
+
+        it 'is expected that the send_compatible_target call contains some parameters' do
+          subject
+          allow_any_instance_of(NotificationService).to receive(:send_compatible_target)
+            .with(hash_including(users: [user2, user3], target: target_new))
+        end
       end
     end
 

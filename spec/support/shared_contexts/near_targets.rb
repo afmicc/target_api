@@ -1,0 +1,63 @@
+shared_context 'near targets', shared_context: :metadata do
+  # users
+  let!(:user2) { create(:user, :confirmed) }
+  let!(:user3) { create(:user, :confirmed) }
+
+  # target - Montenvideo Shopping - 7km - compatible: Y
+  let!(:target1) do
+    create(:target,
+           user: user2,
+           title: 'Montenvideo Shopping',
+           topic: Target.topics.key(1),
+           latitude: -34.9036534,
+           longitude: -56.1449722,
+           area_lenght: 4)
+  end
+
+  # target - Nuevocentro Shopping - 6km - compatible: Y
+  let!(:target2) do
+    create(:target,
+           user: user3,
+           title: 'Nuevocentro Shopping',
+           topic: Target.topics.key(1),
+           latitude: -34.8756006,
+           longitude: -56.1771999,
+           area_lenght: 6)
+  end
+
+  # target - Rural del prado - 6km - compatible: N
+  let!(:target3) do
+    create(:target,
+           user: user2,
+           title: 'Rural del prado',
+           topic: Target.topics.key(8),
+           latitude: -34.8719561,
+           longitude: -56.2144232,
+           area_lenght: 4)
+  end
+
+  # target - Portones Shopping - 12km - compatible: N
+  let!(:target4) do
+    create(:target,
+           user: user3,
+           title: 'Portones Shopping',
+           topic: Target.topics.key(1),
+           latitude: -34.9033253,
+           longitude: -56.1800601,
+           area_lenght: 2)
+  end
+
+  # new target to add - Rootstrap
+  let(:target_new) do
+    {
+      target: attributes_for(:target,
+                             title: 'Rootstrap',
+                             topic: Target.topics.key(1),
+                             latitude: -34.9071206,
+                             longitude: -56.2011391,
+                             area_lenght: 4)
+    }
+  end
+
+  subject { post api_v1_targets_path, params: target_new, headers: auth_header }
+end
