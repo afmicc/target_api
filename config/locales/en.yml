@@ -39,8 +39,12 @@ en:
       admin_mailer:
         contact:
           subject: 'A user has a new question'
+    notification:
+      target:
+        new: "A new target '%{title}' is near you"
   model:
     targets:
       name: 'Targets'
       errors:
         to_many: 'are too many'
+    

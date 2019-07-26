@@ -3,14 +3,15 @@
 # Table name: targets
 #
 #  id          :bigint           not null, primary key
-#  user_id     :bigint
+#  user_id     :bigint           not null
 #  area_lenght :integer          not null
 #  title       :string           not null
 #  topic       :integer          not null
-#  latitude    :decimal(10, 6)   not null
-#  longitude   :decimal(10, 6)   not null
+#  latitude    :float            not null
+#  longitude   :float            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  location    :text
 #
 
 class Target < ActiveRecord::Base
@@ -39,6 +40,11 @@ class Target < ActiveRecord::Base
                         numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
   validate :validate_target_limit, on: :create
 
+  reverse_geocoded_by :latitude, :longitude, address: :location
+
+  after_validation :reverse_geocode
+  after_create :notify_compatible
+
   delegate :targets, to: :user, prefix: true
 
   private
@@ -47,5 +53,18 @@ class Target < ActiveRecord::Base
     return if user_targets.count < MAX_TARGETS_PER_USER
 
     errors.add(:targets, I18n.t('model.targets.errors.to_many'))
+  end
+
+  def notify_compatible
+    users = near_targets.map(&:user)
+
+    NotificationService.new.send_compatible_target(users, self) unless users.empty?
+  end
+
+  def near_targets
+    Target
+      .where(topic: topic)
+      .where.not(user_id: user_id)
+      .near([latitude, longitude], :area_lenght, radius: area_lenght)
   end
 end
