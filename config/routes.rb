@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       devise_scope :user do
         resources :users, only: %i[update]
         resources :targets, only: %i[index create destroy]
+        resources :contact_admin, only: %i[create]
       end
     end
   end

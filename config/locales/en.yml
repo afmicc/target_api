@@ -35,3 +35,7 @@ en:
     errors:
       invalid_model: 'Some fields are invalid'
       not_found: 'The resource was not found'
+    mail:
+      admin_mailer:
+        contact:
+          subject: 'A user has a new question'
