@@ -47,11 +47,13 @@ class Target < ActiveRecord::Base
 
   delegate :targets, to: :user, prefix: true
 
-  scope :near_targets, lambda { |target|
-    where(topic: target.topic)
-      .where.not(user_id: target.user_id)
-      .near([target.latitude, target.longitude], :area_lenght, radius: target.area_lenght)
-  }
+  def near_targets
+    near_targets = []
+    Target.where(topic: topic).where.not(user_id: user_id).each do |target|
+      near_targets.push(target) if (target.area_lenght + area_lenght) >= distance_from(target)
+    end
+    near_targets
+  end
 
   private
 
@@ -62,7 +64,7 @@ class Target < ActiveRecord::Base
   end
 
   def notify_compatible
-    users = User.where(id: Target.near_targets(self).reorder('').distinct.pluck(:user_id))
+    users = near_targets.map(&:user).uniq(&:id)
 
     NotificationService.new.send_compatible_target(users, self) unless users.empty?
   end
