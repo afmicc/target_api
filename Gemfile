@@ -16,6 +16,7 @@ gem 'geocoder', '~> 1.5', '>= 1.5.1'
 gem 'jbuilder', '~> 2.9', '>= 2.9.1'
 gem 'mini_magick', '~> 4.9', '>= 4.9.5'
 gem 'one_signal', '~> 1.2'
+gem 'rack-cors', '~> 1.0', '>= 1.0.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record
@@ -24,7 +25,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'therubyracer', '~> 0.12.3'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.1', '>= 4.1.2'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
