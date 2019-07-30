@@ -10,6 +10,10 @@ Rails.application.routes.draw do
         resources :targets, only: %i[index create destroy]
         resources :contact_admin, only: %i[create]
         resources :general_informations, only: :show, param: :key
+
+        resources :chat_rooms, only: %i[create show index]
+
+        mount ActionCable.server => '/cable'
       end
     end
   end
