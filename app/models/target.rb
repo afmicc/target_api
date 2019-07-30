@@ -51,8 +51,15 @@ class Target < ApplicationRecord
   end
 
   def notify_compatible
-    users = near_targets.map(&:user).uniq(&:id)
+    targets = near_targets
+    ActiveRecord::Base.transaction do
+      targets.each do |target|
+        user.own_chat_rooms.create! title: "#{title} - #{target.title}",
+                                    user_guest_id: target.user_id
+      end
 
-    NotificationService.new.send_compatible_target(users, self) unless users.empty?
+      users = targets.map(&:user).uniq(&:id)
+      NotificationService.new.send_compatible_target(users, self) unless users.empty?
+    end
   end
 end
