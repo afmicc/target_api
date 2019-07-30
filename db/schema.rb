@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_24_151306) do
+ActiveRecord::Schema.define(version: 2019_07_29_140200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chat_rooms", force: :cascade do |t|
+    t.string "title"
+    t.bigint "user_owner_id", null: false
+    t.bigint "user_guest_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_guest_id"], name: "index_chat_rooms_on_user_guest_id"
+    t.index ["user_owner_id"], name: "index_chat_rooms_on_user_owner_id"
+  end
 
   create_table "contact_admins", force: :cascade do |t|
     t.string "email", null: false
@@ -44,6 +54,16 @@ ActiveRecord::Schema.define(version: 2019_07_24_151306) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_general_informations_on_key", unique: true
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "body", null: false
+    t.bigint "user_id"
+    t.bigint "chat_room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "targets", force: :cascade do |t|
@@ -85,4 +105,8 @@ ActiveRecord::Schema.define(version: 2019_07_24_151306) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "chat_rooms", "users", column: "user_guest_id"
+  add_foreign_key "chat_rooms", "users", column: "user_owner_id"
+  add_foreign_key "messages", "chat_rooms"
+  add_foreign_key "messages", "users"
 end

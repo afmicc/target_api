@@ -37,8 +37,15 @@ class User < ActiveRecord::Base
   enum gender: { male: 0, female: 1 }
 
   has_many :targets, dependent: :destroy
+  has_many :own_chat_rooms, class_name: :ChatRoom, foreign_key: 'user_owner_id'
+  has_many :guest_chat_rooms, class_name: :ChatRoom, foreign_key: 'user_guest_id'
+  has_many :messages, dependent: :destroy
 
   validates :name, :email, presence: true
   validates :uid, uniqueness: { case_sensitive: false, scope: :provider }
   validates :gender, presence: true, inclusion: { in: genders.keys }
+
+  def chat_rooms
+    own_chat_rooms.or(guest_chat_rooms)
+  end
 end

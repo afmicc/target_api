@@ -11,6 +11,7 @@ gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'geocoder', '~> 1.5', '>= 1.5.1'
 gem 'jbuilder', '~> 2.9', '>= 2.9.1'
 gem 'one_signal', '~> 1.2'
+gem 'rack-cors', '~> 1.0', '>= 1.0.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record
@@ -18,7 +19,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.1', '>= 4.1.2'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -34,5 +34,13 @@ module TargetApi
 
     # delayed_job
     config.active_job.queue_adapter = :delayed_job
+
+    # CORS
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: :any, expose: %w[client access-token token-type uid]
+      end
+    end
   end
 end
