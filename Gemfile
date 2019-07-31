@@ -36,6 +36,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # gem 'rack-cors'
 
 group :development, :test do
+  gem 'action-cable-testing', '~> 0.5.0'
   gem 'byebug', '~> 11.0', '>= 11.0.1'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'faker', '~> 1.9', '>= 1.9.6'

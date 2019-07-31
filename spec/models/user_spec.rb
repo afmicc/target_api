@@ -41,5 +41,8 @@ describe User, type: :model do
     subject { create(:user) }
 
     it { is_expected.to have_many(:targets) }
+    it { is_expected.to have_many(:own_chat_rooms) }
+    it { is_expected.to have_many(:guest_chat_rooms) }
+    it { is_expected.to have_many(:messages) }
   end
 end

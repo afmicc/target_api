@@ -1,1 +1,1 @@
-json.chat_rooms @chat_rooms, partial: 'info', as: :chat_room
+json.chat_rooms @chat_rooms, partial: 'short_info', as: :chat_room

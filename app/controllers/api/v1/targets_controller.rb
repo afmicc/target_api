@@ -17,7 +17,7 @@ module Api
       end
 
       def compatible
-        compatibles_targets = user_targets.map(&:near_targets).flatten
+        compatibles_targets = user_targets.map(&:near_targets_fn).flatten
         @targets = compatibles_targets.uniq(&:id)
         render :index
       end
