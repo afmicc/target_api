@@ -63,11 +63,49 @@ describe 'Create Targets', type: :request do
 
         it 'is expected a successful response' do
           subject
-          expect(response).to have_http_status(:ok)
+          expect(response).to be_successful
         end
 
         it 'is expected a increasement of delay_jobs count by 1' do
           expect { subject }.to change(Delayed::Job, :count).by(1)
+        end
+
+        it 'is expected a increasement of chat_rooms count by 1' do
+          expect { subject }.to change(ChatRoom, :count).by(1)
+        end
+      end
+
+      context "when the created target isn't compatible with other target's user" do
+        let!(:new_user) { create(:user, :confirmed) }
+        let!(:new_target) do
+          build(:target,
+                user: new_user,
+                topic: topic,
+                latitude: 90,
+                longitude: 180)
+        end
+
+        before do
+          Support::Mock::GeocoderMock.add_stub_worthington(params[:target][:latitude],
+                                                           params[:target][:longitude])
+          Support::Mock::GeocoderMock.add_stub_new_york(new_target.latitude,
+                                                        new_target.longitude)
+          new_target.save!
+        end
+
+        it 'is expected a successful response' do
+          subject
+          expect(response).to be_successful
+        end
+
+        it 'is expected the same count of delay_jobs' do
+          subject
+          expect { subject }.not_to change(Delayed::Job, :count)
+        end
+
+        it 'is expected the same count of chat_rooms' do
+          subject
+          expect { subject }.not_to change(ChatRoom, :count)
         end
       end
 
@@ -76,7 +114,7 @@ describe 'Create Targets', type: :request do
 
         it 'is expected a successful response' do
           subject
-          expect(response).to have_http_status(:ok)
+          expect(response).to be_successful
         end
 
         it 'is expected a increasement of delay_jobs count by 1' do
@@ -166,7 +204,7 @@ describe 'Create Targets', type: :request do
       end
 
       it 'is expected the same count of targets' do
-        expect { subject }.to change(Target, :count).by(0)
+        expect { subject }.not_to change(Target, :count)
       end
     end
   end

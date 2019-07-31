@@ -16,7 +16,6 @@ gem 'geocoder', '~> 1.5', '>= 1.5.1'
 gem 'jbuilder', '~> 2.9', '>= 2.9.1'
 gem 'mini_magick', '~> 4.9', '>= 4.9.5'
 gem 'one_signal', '~> 1.2'
-gem 'rack-cors', '~> 1.0', '>= 1.0.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record
@@ -39,6 +38,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rack-cors', '~> 1.0', '>= 1.0.3'
 
 group :development, :test do
+  gem 'action-cable-testing', '~> 0.5.0'
   gem 'byebug', '~> 11.0', '>= 11.0.1'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'faker', '~> 1.9', '>= 1.9.6'

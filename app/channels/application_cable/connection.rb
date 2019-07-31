@@ -12,21 +12,22 @@ module ApplicationCable
     def find_verified_user
       params = header_params
       user = User.find_by_uid(params[:uid])
-      if user&.valid_token?(params[:access_token], params[:client])
-        user
-      else
-        reject_unauthorized_connection
-      end
+
+      reject_unauthorized_connection if
+        !user || !user.valid_token?(params[:access_token], params[:client])
+
+      user
     end
 
     private
 
     def header_params
+      params = request.params
       {
-        access_token: request.params['access-token'],
-        client: request.params['client'],
-        token_type: request.params['token-type'],
-        uid: request.params['uid'],
+        access_token: params['access-token'],
+        client: params['client'],
+        token_type: params['token-type'],
+        uid: params['uid']
       }
     end
   end

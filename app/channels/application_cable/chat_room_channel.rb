@@ -13,11 +13,15 @@ module ApplicationCable
 
     def send_message(data)
       ActiveRecord::Base.transaction do
-        message = current_user.messages.create! body: data['message'],
-                                                chat_room_id: data['chat_room_id']
+        body = data['message']
+        chat_room_id = data['chat_room_id']
+        message = current_user.messages.create!(body: body, chat_room_id: chat_room_id)
 
-        self.class.broadcast_to chat_room(data['chat_room_id']),
-                                message: message.to_json
+        self.class.broadcast_to(chat_room(chat_room_id),
+                                body: message.body,
+                                user_id: message.user_id,
+                                chat_room_id: message.chat_room_id,
+                                created_at: message.created_at)
       end
     end
 

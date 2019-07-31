@@ -28,6 +28,10 @@ detectors:
       - "Helpers"
       - "NotificationService"
 
+  FeatureEnvy:
+    exclude:
+      - "ApplicationCable::Connection"
+
 ### Directory specific configuration
 
 # You can configure smells on a per-directory base.
