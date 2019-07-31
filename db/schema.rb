@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2019_07_29_140200) do
   enable_extension "plpgsql"
 
   create_table "chat_rooms", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.bigint "user_owner_id", null: false
     t.bigint "user_guest_id", null: false
     t.datetime "created_at", null: false
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 2019_07_29_140200) do
 
   create_table "messages", force: :cascade do |t|
     t.text "body", null: false
-    t.bigint "user_id"
-    t.bigint "chat_room_id"
+    t.bigint "user_id", null: false
+    t.bigint "chat_room_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
