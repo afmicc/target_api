@@ -24,6 +24,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  gender                 :integer          not null
+#  active_chat_room_id    :bigint
 #
 
 class User < ActiveRecord::Base
