@@ -9,6 +9,18 @@ class NotificationService
     delay.send_notification(params)
   end
 
+  def send_new_message(user, chat_room, message)
+    params = {
+      data: { 'chat_room_id': chat_room.id, 'message_id': message.id },
+      filters: users_filter([user]),
+      contents: { 'en': I18n.t('api.notification.message.new',
+                               user: user.name,
+                               message: message.body.truncate(15)) }
+    }
+
+    delay.send_notification(params)
+  end
+
   def send_test(email)
     params = {
       filters: [{ 'field': 'tag', 'key': 'email', 'relation': '=', 'value': email }],

@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
   has_many :own_chat_rooms, class_name: :ChatRoom, foreign_key: 'user_owner_id'
   has_many :guest_chat_rooms, class_name: :ChatRoom, foreign_key: 'user_guest_id'
   has_many :messages, dependent: :destroy
+  belongs_to :active_chat_room, class_name: :ChatRoom, optional: true
 
   validates :name, :email, presence: true
   validates :uid, uniqueness: { case_sensitive: false, scope: :provider }
@@ -47,5 +48,9 @@ class User < ActiveRecord::Base
 
   def chat_rooms
     own_chat_rooms.or(guest_chat_rooms)
+  end
+
+  def update_active_chat_room(chat_room)
+    update!(active_chat_room: chat_room)
   end
 end
