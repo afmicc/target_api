@@ -42,6 +42,8 @@ en:
     notification:
       target:
         new: "A new target '%{title}' is near you"
+      message:
+        new: '%{user} send you a new message: %{message}'
   model:
     targets:
       name: 'Targets'

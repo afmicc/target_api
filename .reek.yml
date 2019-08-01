@@ -1,6 +1,12 @@
 ### Generic smell configuration
 
 detectors:
+  TooManyStatements:
+    enabled: true
+    exclude:
+    - initialize
+    max_statements: 6
+
   # You can disable smells completely
   IrresponsibleModule:
     enabled: false
@@ -31,6 +37,7 @@ detectors:
   FeatureEnvy:
     exclude:
       - "ApplicationCable::Connection"
+      - "ApplicationCable::ChatRoomChannel"
 
 ### Directory specific configuration
 
