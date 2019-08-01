@@ -2,18 +2,18 @@ require 'rails_helper'
 
 describe 'GET api/v1/chat_rooms/{id}', type: :request do
   let!(:user) { create(:user, :confirmed) }
-  let!(:chat_room) { create(:chat_room, :with_messages, messages_count: 7, user_owner: user) }
+  let!(:chat_room) { create(:chat_room, :with_messages, messages_count: 7, user_owner_id: user.id) }
 
   context 'when the request is succesful' do
-    before do
-      get api_v1_chat_room_path(chat_room), headers: auth_header
-    end
+    subject { get api_v1_chat_room_path(chat_room), headers: auth_header }
 
     it 'is expected a successful response' do
+      subject
       expect(response).to be_successful
     end
 
     it 'is expected that response contains some body data' do
+      subject
       body = (JSON response.body)
       expect(json_value(body, 'chat_room', 'id')).not_to be_nil
       expect(json_value(body, 'chat_room', 'user_owner_id')).to eq chat_room.user_owner_id
@@ -28,6 +28,10 @@ describe 'GET api/v1/chat_rooms/{id}', type: :request do
       expect(json_value(message, 'body')).to eq chat_room.messages.last.body
       expect(DateTime.parse(json_value(message, 'created_at')).to_i)
         .to equal chat_room.messages.last.created_at.to_i
+    end
+
+    it 'is expected that sender user change the active chat room info' do
+      expect { subject }.to change { user.reload.active_chat_room }.from(nil).to(chat_room)
     end
   end
 

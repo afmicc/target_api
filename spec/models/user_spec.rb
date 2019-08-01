@@ -22,6 +22,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  gender                 :integer          not null
+#  active_chat_room_id    :bigint
 #
 
 require 'rails_helper'
@@ -44,5 +45,6 @@ describe User, type: :model do
     it { is_expected.to have_many(:own_chat_rooms) }
     it { is_expected.to have_many(:guest_chat_rooms) }
     it { is_expected.to have_many(:messages) }
+    it { is_expected.to belong_to(:active_chat_room).optional }
   end
 end
