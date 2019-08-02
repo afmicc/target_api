@@ -75,8 +75,9 @@ class Target < ActiveRecord::Base
 
   def create_chat_rooms_compatibles(targets)
     targets.each do |target|
-      user.own_chat_rooms.create! title: "#{title} - #{target.title}",
-                                  user_guest_id: target.user_id
+      user.own_chat_rooms.create! target_owner_id: id,
+                                  user_guest_id: target.user_id,
+                                  target_guest_id: target.id
     end
   end
 

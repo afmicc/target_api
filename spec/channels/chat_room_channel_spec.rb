@@ -20,7 +20,11 @@ describe ApplicationCable::ChatRoomChannel, type: :channel do
       expect(subscription).to have_stream_for(chat_room)
     end
 
-    context 'send messages to chat room' do
+    it 'is expected that unread messages count equals 0' do
+      expect(chat_room.reload.unread_messages_owner).to be == 0
+    end
+
+    context 'when send messages to chat room' do
       let(:message) { build(:message) }
 
       subject { perform :send_message, message: message.body, chat_room_id: chat_room.id }
@@ -41,6 +45,12 @@ describe ApplicationCable::ChatRoomChannel, type: :channel do
         it 'is expected a increasement of delay_jobs count by 1' do
           expect { subject }.to change(Delayed::Job, :count).by(1)
         end
+
+        it 'is expected a increasement of unread messages count by 1' do
+          future_value = chat_room.unread_messages_guest + 1
+          subject
+          expect(chat_room.reload.unread_messages_guest).to be == future_value
+        end
       end
 
       context 'when the receiver is in chat windows' do
@@ -51,6 +61,14 @@ describe ApplicationCable::ChatRoomChannel, type: :channel do
         it 'is expected the same count of delay_jobs' do
           expect { subject }.to change(Delayed::Job, :count).by(0)
         end
+      end
+    end
+
+    context 'when unsuscribe' do
+      it 'is expected that sender user change the active chat room info' do
+        expect do
+          subscription.unsubscribe_from_channel
+        end.to change { user.reload.active_chat_room }.from(chat_room).to(nil)
       end
     end
   end

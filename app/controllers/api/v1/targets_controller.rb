@@ -17,9 +17,7 @@ module Api
       end
 
       def compatible
-        compatibles_targets = user_targets.map(&:near_targets_fn).flatten
-        @targets = compatibles_targets.uniq(&:id)
-        render :index
+        @chat_rooms = current_user.chat_rooms.includes(:target_owner).includes(:target_guest)
       end
 
       private

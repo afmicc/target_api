@@ -41,14 +41,18 @@ describe 'Compatible Targets', type: :request do
 
       it 'is expected that response contains at least some body data' do
         body = (JSON response.body)
-        last = json_value(body, 'targets').last
+        last = json_value(body, 'chat_rooms').last
         expect(json_value(last, 'id')).not_to be_nil
-        expect(json_value(last, 'user_id')).not_to be_nil
-        expect(json_value(last, 'area_lenght')).to eq new_target.area_lenght
-        expect(json_value(last, 'title')).to eq new_target.title
-        expect(json_value(last, 'topic')).to eq new_target.topic
-        expect(json_value(last, 'latitude').round(10)).to eq new_target.latitude.round(10)
-        expect(json_value(last, 'longitude').round(10)).to eq new_target.longitude.round(10)
+        expect(json_value(last, 'unread_messages')).to be >= 0
+        expect(json_value(last, 'target')).not_to be_nil
+        value = json_value(last, 'target')
+        expect(json_value(value, 'id')).not_to be_nil
+        expect(json_value(value, 'user_id')).not_to be_nil
+        expect(json_value(value, 'area_lenght')).to eq target.area_lenght
+        expect(json_value(value, 'title')).to eq target.title
+        expect(json_value(value, 'topic')).to eq target.topic
+        expect(json_value(value, 'latitude').round(10)).to eq target.latitude.round(10)
+        expect(json_value(value, 'longitude').round(10)).to eq target.longitude.round(10)
       end
     end
 

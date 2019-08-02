@@ -15,7 +15,7 @@
 #
 
 FactoryBot.define do
-  factory :target do
+  factory :target, aliases: %i[target_owner target_guest] do
     user
     area_lenght { Faker::Number.between(1, 1000) }
     title { Faker::Lorem.word }

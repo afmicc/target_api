@@ -1,7 +1,9 @@
 module ApplicationCable
   class ChatRoomChannel < ApplicationCable::Channel
     def subscribed
-      stream_for chat_room(params['chat_room_id'])
+      chat_room = chat_room(params['chat_room_id'])
+      stream_for chat_room
+      chat_room.reset_unread_messages(current_user)
     rescue StandardError
       transmit error: I18n.t('api.errors.not_found')
       reject
@@ -35,20 +37,9 @@ module ApplicationCable
                               chat_room_id: message.chat_room_id,
                               created_at: message.created_at
 
-      user = notificable_user(chat_room)
+      user = chat_room.notificable_user(current_user)
       NotificationService.new.send_new_message(user, chat_room, message) if user
-    end
-
-    def notificable_user(chat_room)
-      owner = chat_room.user_owner
-      guest = chat_room.user_guest
-      current_id = current_user.id
-      user = if current_id != owner.id
-               owner
-             elsif current_id != guest.id
-               guest
-             end
-      return user if !user.active_chat_room_id? || user.active_chat_room.id != chat_room.id
+      chat_room.increment_unread_messages(user) if user
     end
   end
 end

@@ -2,7 +2,17 @@ require 'rails_helper'
 
 describe 'GET api/v1/chat_rooms/{id}', type: :request do
   let!(:user) { create(:user, :confirmed) }
-  let!(:chat_room) { create(:chat_room, :with_messages, messages_count: 7, user_owner_id: user.id) }
+  let!(:target) { create(:target, user: user) }
+  let!(:user_guest) { create(:user, :confirmed) }
+  let!(:target_guest) { create(:target, user: user_guest) }
+  let!(:chat_room) do
+    create(:chat_room, :with_messages,
+           messages_count: 7,
+           user_owner: user,
+           user_guest: user_guest,
+           target_owner: target,
+           target_guest: target_guest)
+  end
 
   context 'when the request is succesful' do
     subject { get api_v1_chat_room_path(chat_room), headers: auth_header }
@@ -18,7 +28,9 @@ describe 'GET api/v1/chat_rooms/{id}', type: :request do
       expect(json_value(body, 'chat_room', 'id')).not_to be_nil
       expect(json_value(body, 'chat_room', 'user_owner_id')).to eq chat_room.user_owner_id
       expect(json_value(body, 'chat_room', 'user_guest_id')).to eq chat_room.user_guest_id
-      expect(json_value(body, 'chat_room', 'title')).to eq chat_room.title
+      expect(json_value(body, 'chat_room', 'title')).to eq target.title
+      expect(json_value(body, 'chat_room', 'target_id')).to eq target.id
+      expect(json_value(body, 'chat_room', 'unread_messages')).to be >= 0
       expect(json_value(body, 'chat_room', 'messages').count).to eq 7
       messages = json_value(body, 'chat_room', 'messages')
       message = messages.last

@@ -9,6 +9,6 @@ describe ApplicationCable::Connection, type: :channel do
   end
 
   it 'rejects connection' do
-    expect { connect '/cable' }.to have_rejected_connection
+    expect { connect 'api/v1/cable' }.to have_rejected_connection
   end
 end

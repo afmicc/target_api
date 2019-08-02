@@ -34,7 +34,7 @@ class NotificationService
 
   def send_notification(params)
     params[:app_id] = ENV['one_signal_app_id']
-    OneSignal::OneSignal.api_key = ENV['one_signal_app_key']
+    OneSignal::OneSignal.api_key = ENV['one_signal_api_key']
     OneSignal::Notification.create(params: params)
   end
 

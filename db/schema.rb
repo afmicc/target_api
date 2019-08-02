@@ -10,17 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_214241) do
+ActiveRecord::Schema.define(version: 2019_08_01_202043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "chat_rooms", force: :cascade do |t|
-    t.string "title", null: false
     t.bigint "user_owner_id", null: false
     t.bigint "user_guest_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "unread_messages_owner", default: 0
+    t.integer "unread_messages_guest", default: 0
+    t.bigint "target_owner_id", null: false
+    t.bigint "target_guest_id", null: false
+    t.index ["target_guest_id"], name: "index_chat_rooms_on_target_guest_id"
+    t.index ["target_owner_id"], name: "index_chat_rooms_on_target_owner_id"
     t.index ["user_guest_id"], name: "index_chat_rooms_on_user_guest_id"
     t.index ["user_owner_id"], name: "index_chat_rooms_on_user_owner_id"
   end
@@ -107,6 +112,8 @@ ActiveRecord::Schema.define(version: 2019_07_31_214241) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "chat_rooms", "targets", column: "target_guest_id"
+  add_foreign_key "chat_rooms", "targets", column: "target_owner_id"
   add_foreign_key "chat_rooms", "users", column: "user_guest_id"
   add_foreign_key "chat_rooms", "users", column: "user_owner_id"
   add_foreign_key "messages", "chat_rooms"

@@ -1,11 +1,7 @@
 ### Generic smell configuration
 
 detectors:
-  TooManyStatements:
-    enabled: true
-    exclude:
-    - initialize
-    max_statements: 6
+ 
 
   # You can disable smells completely
   IrresponsibleModule:
