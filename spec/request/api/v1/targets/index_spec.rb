@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 describe 'List Targets', type: :request do
-  let!(:user) { create(:user, :confirmed) }
+  let!(:user) { create(:user, :confirmed, :with_targets, targets_count: 2) }
   let!(:target) { create(:target, user: user) }
+  let!(:new_user) { create(:user, :confirmed, :with_targets) }
 
   describe 'GET api/v1/targets' do
     before do
@@ -16,20 +17,19 @@ describe 'List Targets', type: :request do
 
       it 'is expected that response contains at least one' do
         body = JSON response.body
-        expect(body).to_not be_empty
-        expect(body.count).to be_positive
+        targets = json_value(body, 'targets')
+        expect(targets).to_not be_empty
+        expect(targets.count).to be(3)
       end
 
       it 'is expected that response contains at least some body data' do
-        body = (JSON response.body)
-        last = json_value(body, 'targets').last
-        expect(json_value(last, 'id')).not_to be_nil
-        expect(json_value(last, 'user_id')).not_to be_nil
-        expect(json_value(last, 'area_lenght')).to eq target.area_lenght
-        expect(json_value(last, 'title')).to eq target.title
-        expect(json_value(last, 'topic')).to eq target.topic
-        expect(json_value(last, 'latitude').round(10)).to eq target.latitude.round(10)
-        expect(json_value(last, 'longitude').round(10)).to eq target.longitude.round(10)
+        expect(response.body).to include_json(
+          targets: [
+            { user_id: user.id },
+            { user_id: user.id },
+            { user_id: user.id }
+          ]
+        )
       end
     end
 

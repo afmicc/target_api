@@ -27,13 +27,17 @@ describe 'Auth - sign up', type: :request do
 
       it 'is expected that response contains some body data' do
         post user_registration_path params
-        body = JSON response.body
-        expect(json_value(body, 'status')).to eq 'success'
-        expect(json_value(body, 'data', 'id')).not_to be_nil
-        expect(json_value(body, 'data', 'uid')).to eq user.email
-        expect(json_value(body, 'data', 'email')).to eq user.email
-        expect(json_value(body, 'data', 'name')).to eq user.name
-        expect(json_value(body, 'data', 'gender')).to eq user.gender
+        expect(response.body).to include_json(
+          status: 'success',
+          data:
+            {
+              id: /\d/,
+              uid: user.email,
+              email: user.email,
+              name: user.name,
+              gender: user.gender
+            }
+        )
       end
 
       it 'is expected that confirmation mail is sent' do

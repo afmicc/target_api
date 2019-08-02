@@ -27,8 +27,7 @@ describe 'DELETE api/v1/targets/1', type: :request do
     end
 
     it 'is expected an error message' do
-      body = JSON response.body
-      expect(json_value(body, 'error')).to eq I18n.t('api.errors.not_found')
+      expect(response.body).to include_json(error: I18n.t('api.errors.not_found'))
     end
   end
 
@@ -45,8 +44,7 @@ describe 'DELETE api/v1/targets/1', type: :request do
     end
 
     it 'is expected an error message' do
-      body = JSON response.body
-      expect(json_value(body, 'error')).to eq I18n.t('api.errors.not_found')
+      expect(response.body).to include_json(error: I18n.t('api.errors.not_found'))
     end
   end
 
