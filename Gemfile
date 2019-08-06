@@ -39,6 +39,7 @@ group :development, :test do
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'faker', '~> 1.9', '>= 1.9.6'
   gem 'rails_best_practices', '~> 1.19', '>= 1.19.4'
+  gem 'rspec-json_expectations', '~> 2.2'
   gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
   gem 'shoulda-matchers', '~> 4.1'
 end

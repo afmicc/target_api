@@ -20,16 +20,22 @@ describe 'Update Users', type: :request do
       end
 
       it 'is expected that response contains some body data' do
-        body = JSON response.body
-        expect(json_value(body, 'user', 'id')).not_to be_nil
-        expect(json_value(body, 'user', 'name')).to eq params[:user]['name']
-        expect(json_value(body, 'user', 'gender')).to eq params[:user]['gender']
+        expect(response.body).to include_json(
+          user: {
+            id: user.id,
+            name: params[:user]['name'],
+            gender: params[:user]['gender']
+          }
+        )
       end
 
       it 'is expected that email is ignored' do
-        body = JSON response.body
-        expect(json_value(body, 'user', 'id')).not_to be_nil
-        expect(json_value(body, 'user', 'email')).to eq user.email
+        expect(response.body).to include_json(
+          user: {
+            id: user.id,
+            email: user.email
+          }
+        )
       end
     end
 
@@ -37,9 +43,8 @@ describe 'Update Users', type: :request do
       it 'requires the name parameter' do
         params[:user]['name'] = nil
         put api_v1_user_path(user), params: params, headers: auth_header
-        body = JSON response.body
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_value(body, 'error')).to eq I18n.t('api.errors.invalid_model')
+        expect(response.body).to include_json(error: I18n.t('api.errors.invalid_model'))
       end
     end
   end

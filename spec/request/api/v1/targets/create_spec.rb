@@ -23,17 +23,19 @@ describe 'Create Targets', type: :request do
 
       it 'is expected that response contains some body data' do
         subject
-        body = JSON response.body
-        decimal_scale = 10
-        expect(json_value(body, 'target', 'id')).not_to be_nil
-        expect(json_value(body, 'target', 'user_id')).not_to be_nil
-        expect(json_value(body, 'target', 'area_lenght')).to eq params[:target][:area_lenght]
-        expect(json_value(body, 'target', 'title')).to eq params[:target][:title]
-        expect(json_value(body, 'target', 'topic')).to eq params[:target][:topic]
-        expect(json_value(body, 'target', 'latitude').round(decimal_scale))
-          .to eq params[:target][:latitude].round(decimal_scale)
-        expect(json_value(body, 'target', 'longitude').round(decimal_scale))
-          .to eq params[:target][:longitude].round(decimal_scale)
+        decimal_scale = 0.00001
+        expect(response.body).to include_json(
+          target:
+            {
+              id: /\d/,
+              user_id: user.id,
+              area_lenght: params[:target][:area_lenght],
+              title: params[:target][:title],
+              topic: params[:target][:topic],
+              latitude: be_within(decimal_scale).of(params[:target][:latitude]),
+              longitude: be_within(decimal_scale).of(params[:target][:longitude])
+            }
+        )
       end
 
       context "when the created target is compatible with other user's target" do
@@ -95,8 +97,7 @@ describe 'Create Targets', type: :request do
       end
 
       it 'is expected an error message' do
-        body = JSON response.body
-        expect(json_value(body, 'error')).to eq I18n.t('api.errors.invalid_model')
+        expect(response.body).to include_json(error: I18n.t('api.errors.invalid_model'))
       end
     end
 

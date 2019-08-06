@@ -27,11 +27,15 @@ describe 'Auth - sign in', type: :request do
       end
 
       it 'is expected that response contains some body data' do
-        body = JSON response.body
-        expect(json_value(body, 'data', 'id')).not_to be_nil
-        expect(json_value(body, 'data', 'uid')).to eq user.email
-        expect(json_value(body, 'data', 'email')).to eq user.email
-        expect(json_value(body, 'data', 'name')).to eq user.name
+        expect(response.body).to include_json(
+          data:
+            {
+              id: user.id,
+              uid: user.email,
+              email: user.email,
+              name: user.name
+            }
+        )
       end
 
       it 'is expected a successful response to other queries' do
