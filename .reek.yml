@@ -26,6 +26,7 @@ detectors:
   UtilityFunction:
     exclude:
       - "Helpers"
+      - "NotificationService"
 
 ### Directory specific configuration
 
