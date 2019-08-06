@@ -87,6 +87,24 @@ describe 'Auth - sign in', type: :request do
           expect(response).to have_http_status(:unauthorized)
         end
       end
+
+      context 'when credentials are from a admin user' do
+        let!(:admin) { create(:admin_user) }
+        let(:admin_sign_in_params) do
+          {
+            email: admin.email,
+            password: admin.password
+          }
+        end
+
+        before do
+          post user_session_path admin_sign_in_params
+        end
+
+        it 'is expected an unauthorized response' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
     end
   end
 end

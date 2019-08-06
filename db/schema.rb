@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2019_08_05_182036) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "location"
+    t.index ["latitude", "longitude"], name: "index_targets_on_latitude_and_longitude"
     t.index ["user_id"], name: "index_targets_on_user_id"
   end
 
