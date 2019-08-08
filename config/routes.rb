@@ -15,6 +15,7 @@ Rails.application.routes.draw do
         end
         resources :contact_admin, only: %i[create]
         resources :general_informations, only: :show, param: :key
+        resources :topics, only: :index
       end
     end
   end

@@ -3,12 +3,16 @@ shared_context 'near targets', shared_context: :metadata do
   let!(:user2) { create(:user, :confirmed) }
   let!(:user3) { create(:user, :confirmed) }
 
-  # target - Montenvideo Shopping - 5.14 km - compatible: Y
+  # topics
+  let!(:topic1) { create(:topic) }
+  let!(:topic2) { create(:topic) }
+
+  # target - Montenvideo Shopping - 7km - compatible: Y
   let!(:target1) do
     create(:target,
            user: user2,
            title: 'Montenvideo Shopping',
-           topic: Target.topics.key(1),
+           topic_id: topic1.id,
            latitude: -34.9036534,
            longitude: -56.1449722,
            area_lenght: 4)
@@ -19,7 +23,7 @@ shared_context 'near targets', shared_context: :metadata do
     create(:target,
            user: user3,
            title: 'Nuevocentro Shopping',
-           topic: Target.topics.key(1),
+           topic_id: topic1.id,
            latitude: -34.8756006,
            longitude: -56.1771999,
            area_lenght: 2)
@@ -30,7 +34,7 @@ shared_context 'near targets', shared_context: :metadata do
     create(:target,
            user: user2,
            title: 'Rural del prado',
-           topic: Target.topics.key(8),
+           topic_id: topic2.id,
            latitude: -34.8719561,
            longitude: -56.2144232,
            area_lenght: 4)
@@ -41,9 +45,9 @@ shared_context 'near targets', shared_context: :metadata do
     create(:target,
            user: user3,
            title: 'Portones Shopping',
-           topic: Target.topics.key(1),
-           latitude: -34.8811386,
-           longitude: -56.0813423,
+           topic_id: topic1.id,
+           latitude: -34.9033253,
+           longitude: -56.1800601,
            area_lenght: 2)
   end
 
@@ -52,7 +56,7 @@ shared_context 'near targets', shared_context: :metadata do
     {
       target: attributes_for(:target,
                              title: 'Rootstrap',
-                             topic: Target.topics.key(1),
+                             topic_id: topic1.id,
                              latitude: -34.9071206,
                              longitude: -56.2011391,
                              area_lenght: 4)
