@@ -19,11 +19,8 @@ describe 'GET api/v1/topics', type: :request do
     end
 
     it 'is expected that response contains at least some body data' do
-      expect(response.body).to include_json(
-        topics: a_collection_including(
-          a_hash_including('id' => topic.id, 'title' => topic.title)
-        )
-      )
+      topics = json_value(response.parsed_body, 'topics')
+      expect(topics).to include_unordered_json([{ id: topic.id, title: topic.title }])
     end
   end
 

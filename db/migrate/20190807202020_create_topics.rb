@@ -6,8 +6,6 @@ class CreateTopics < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    %w[football travel politics art dating music movies series food].each do |topic|
-      Topic.create! title: topic
-    end
+    add_index :topics, :title, unique: true
   end
 end

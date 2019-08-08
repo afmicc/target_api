@@ -48,7 +48,7 @@ describe 'Create Targets', type: :request do
         let!(:new_target) do
           build(:target,
                 user: new_user,
-                topic_id: topic.id,
+                topic: topic,
                 latitude: params[:target][:latitude] + 0.01,
                 longitude: params[:target][:longitude])
         end

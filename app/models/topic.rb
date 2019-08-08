@@ -11,5 +11,5 @@
 class Topic < ApplicationRecord
   has_many :targets, dependent: :destroy
 
-  validates :title, presence: true
+  validates :title, presence: true, uniqueness: { case_sensitive: false }
 end

@@ -12,7 +12,7 @@ shared_context 'near targets', shared_context: :metadata do
     create(:target,
            user: user2,
            title: 'Montenvideo Shopping',
-           topic_id: topic1.id,
+           topic: topic1,
            latitude: -34.9036534,
            longitude: -56.1449722,
            area_lenght: 4)
@@ -23,7 +23,7 @@ shared_context 'near targets', shared_context: :metadata do
     create(:target,
            user: user3,
            title: 'Nuevocentro Shopping',
-           topic_id: topic1.id,
+           topic: topic1,
            latitude: -34.8756006,
            longitude: -56.1771999,
            area_lenght: 2)
@@ -34,7 +34,7 @@ shared_context 'near targets', shared_context: :metadata do
     create(:target,
            user: user2,
            title: 'Rural del prado',
-           topic_id: topic2.id,
+           topic: topic2,
            latitude: -34.8719561,
            longitude: -56.2144232,
            area_lenght: 4)
@@ -45,9 +45,9 @@ shared_context 'near targets', shared_context: :metadata do
     create(:target,
            user: user3,
            title: 'Portones Shopping',
-           topic_id: topic1.id,
-           latitude: -34.9033253,
-           longitude: -56.1800601,
+           topic: topic1,
+           latitude: -34.8811386,
+           longitude: -56.0813423,
            area_lenght: 2)
   end
 

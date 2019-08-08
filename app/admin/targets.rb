@@ -1,5 +1,5 @@
 ActiveAdmin.register Target do
-  config.sort_order = 'topic_asc'
+  config.sort_order = 'created_at_desc'
   config.per_page = [10, 50, 100]
 
   actions :index, :show
@@ -16,6 +16,7 @@ ActiveAdmin.register Target do
 
   filter :title
   filter :topic, as: :select
+  filter :topic_title_cont, label: 'Topic Title'
   filter :area_lenght, as: :numeric
   filter :user
   filter :user_name_cont, label: 'User Name'

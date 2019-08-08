@@ -10,6 +10,6 @@
 
 FactoryBot.define do
   factory :topic do
-    title { Faker::Lorem.word }
+    title { Faker::Lorem.unique.word }
   end
 end
