@@ -9,7 +9,7 @@
 #  updated_at :datetime         not null
 #
 
-class ContactAdmin < ActiveRecord::Base
+class ContactAdmin < ApplicationRecord
   validates :message, presence: true
   validates :email, presence: true, format: { with: Devise.email_regexp }
 

@@ -4,6 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.3'
 
 gem 'activeadmin', '~> 2.2'
+gem 'active_storage_base64', '~> 0.1.4'
+gem 'aws-sdk-s3', require: false
 gem 'daemons', '~> 1.3', '>= 1.3.1'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.3'
 gem 'devise', '~> 4.6', '>= 4.6.2'

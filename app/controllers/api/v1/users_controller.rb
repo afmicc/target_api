@@ -15,7 +15,7 @@ module Api
       end
 
       def update_params
-        params.require(:user).permit(:name, :gender)
+        params.require(:user).permit(:name, :gender, avatar: [:data])
       end
     end
   end

@@ -26,7 +26,7 @@
 #  gender                 :integer          not null
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :trackable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
   enum gender: { male: 0, female: 1 }
 
   has_many :targets, dependent: :destroy
+  has_one_base64_attached :avatar
 
   validates :name, :email, presence: true
   validates :uid, uniqueness: { case_sensitive: false, scope: :provider }
