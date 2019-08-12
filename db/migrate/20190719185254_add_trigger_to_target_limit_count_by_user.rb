@@ -7,7 +7,7 @@ class AddTriggerToTargetLimitCountByUser < ActiveRecord::Migration[5.2]
         BEGIN
           count_targets :=  (SELECT COUNT(t.*) FROM targets t WHERE NEW.user_id = t.user_id);
 
-          IF count_targets >= #{Api::V1::Target::MAX_TARGETS_PER_USER} THEN
+          IF count_targets >= #{Target::MAX_TARGETS_PER_USER} THEN
               RAISE EXCEPTION '#{I18n.t('model.targets.name')} #{I18n.t('model.targets.errors.to_many')}';
           END IF;
 

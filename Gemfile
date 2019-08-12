@@ -3,10 +3,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
+gem 'activeadmin', '~> 2.2'
 gem 'daemons', '~> 1.3', '>= 1.3.1'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.3'
 gem 'devise', '~> 4.6', '>= 4.6.2'
 gem 'devise_token_auth', '~> 1.1'
+gem 'execjs', '~> 2.7'
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'geocoder', '~> 1.5', '>= 1.5.1'
 gem 'jbuilder', '~> 2.9', '>= 2.9.1'
@@ -17,6 +19,7 @@ gem 'rails', '~> 5.2.3'
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
+gem 'therubyracer', '~> 0.12.3'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
