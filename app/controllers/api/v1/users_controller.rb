@@ -3,6 +3,8 @@ module Api
     class UsersController < ApiController
       helper_method :user
 
+      def show; end
+
       def update
         user.update!(update_params)
         render :show

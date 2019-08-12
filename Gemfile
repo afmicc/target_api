@@ -14,6 +14,7 @@ gem 'execjs', '~> 2.7'
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'geocoder', '~> 1.5', '>= 1.5.1'
 gem 'jbuilder', '~> 2.9', '>= 2.9.1'
+gem 'mini_magick', '~> 4.9', '>= 4.9.5'
 gem 'one_signal', '~> 1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
@@ -37,7 +38,7 @@ gem 'therubyracer', '~> 0.12.3'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'byebug', '~> 11.0', '>= 11.0.1'
