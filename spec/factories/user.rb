@@ -18,5 +18,15 @@ FactoryBot.define do
         create_list(:target, evaluator.targets_count, user: user)
       end
     end
+
+    trait :with_avatar do
+      after(:create) do |user|
+        user.avatar.attach(
+          io: File.open(Rails.root.join('spec', 'fixtures', 'small_avatar.png')),
+          filename: 'small_avatar.png',
+          content_type: 'image/png'
+        )
+      end
+    end
   end
 end

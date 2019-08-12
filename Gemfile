@@ -3,9 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
-gem 'activeadmin', '~> 2.2'
 gem 'active_storage_base64', '~> 0.1.4'
-gem 'aws-sdk-s3', require: false
+gem 'activeadmin', '~> 2.2'
+gem 'aws-sdk-s3', '~> 1.46', require: false
 gem 'daemons', '~> 1.3', '>= 1.3.1'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.3'
 gem 'devise', '~> 4.6', '>= 4.6.2'
@@ -28,9 +28,6 @@ gem 'therubyracer', '~> 0.12.3'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -38,7 +35,7 @@ gem 'therubyracer', '~> 0.12.3'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem 'rack-cors'
+gem 'rack-cors', '~> 1.0', '>= 1.0.3'
 
 group :development, :test do
   gem 'byebug', '~> 11.0', '>= 11.0.1'
