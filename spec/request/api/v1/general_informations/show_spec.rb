@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe 'GET api/v1/general_informations', type: :request do
   let!(:user) { create(:user, :confirmed) }
+  let!(:about_info) { create(:general_information) }
 
   describe 'First General Information (key = about)' do
-    let(:param) { 'about' }
+    let(:param) { about_info.key }
 
     context 'when the request is succesful' do
       before do
@@ -16,9 +17,13 @@ describe 'GET api/v1/general_informations', type: :request do
       end
 
       it 'is expected that response contains some body data' do
-        body = (JSON response.body)
-        expect(json_value(body, 'general_information', 'title')).not_to be_nil
-        expect(json_value(body, 'general_information', 'text')).not_to be_nil
+        expect(response.body).to include_json(
+          general_information:
+            {
+              title: about_info.title,
+              text: about_info.text
+            }
+        )
       end
     end
 
