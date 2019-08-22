@@ -14,7 +14,7 @@
 #  location    :text
 #
 
-class Target < ActiveRecord::Base
+class Target < ApplicationRecord
   MAX_TARGETS_PER_USER = 10
 
   enum topic:

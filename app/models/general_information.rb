@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-class GeneralInformation < ActiveRecord::Base
+class GeneralInformation < ApplicationRecord
   validates :title, :text, presence: true
   validates :key, presence: true, uniqueness: { case_sensitive: false }
 end

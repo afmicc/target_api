@@ -3,7 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
+gem 'active_storage_base64', '~> 0.1.4'
 gem 'activeadmin', '~> 2.2'
+gem 'aws-sdk-s3', '~> 1.46', require: false
 gem 'daemons', '~> 1.3', '>= 1.3.1'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.3'
 gem 'devise', '~> 4.6', '>= 4.6.2'
@@ -12,6 +14,7 @@ gem 'execjs', '~> 2.7'
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'geocoder', '~> 1.5', '>= 1.5.1'
 gem 'jbuilder', '~> 2.9', '>= 2.9.1'
+gem 'mini_magick', '~> 4.9', '>= 4.9.5'
 gem 'one_signal', '~> 1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
@@ -25,9 +28,6 @@ gem 'therubyracer', '~> 0.12.3'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -35,7 +35,7 @@ gem 'therubyracer', '~> 0.12.3'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors', '~> 1.0', '>= 1.0.3'
 
 group :development, :test do
   gem 'byebug', '~> 11.0', '>= 11.0.1'
