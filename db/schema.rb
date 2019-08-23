@@ -62,6 +62,16 @@ ActiveRecord::Schema.define(version: 2019_08_08_172853) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "chat_rooms", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "user_owner_id", null: false
+    t.bigint "user_guest_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_guest_id"], name: "index_chat_rooms_on_user_guest_id"
+    t.index ["user_owner_id"], name: "index_chat_rooms_on_user_owner_id"
+  end
+
   create_table "contact_admins", force: :cascade do |t|
     t.string "email", null: false
     t.text "message", null: false
@@ -91,6 +101,16 @@ ActiveRecord::Schema.define(version: 2019_08_08_172853) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_general_informations_on_key", unique: true
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "body", null: false
+    t.bigint "user_id", null: false
+    t.bigint "chat_room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "targets", force: :cascade do |t|
@@ -142,4 +162,8 @@ ActiveRecord::Schema.define(version: 2019_08_08_172853) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "targets", "topics"
+  add_foreign_key "chat_rooms", "users", column: "user_guest_id"
+  add_foreign_key "chat_rooms", "users", column: "user_owner_id"
+  add_foreign_key "messages", "chat_rooms"
+  add_foreign_key "messages", "users"
 end

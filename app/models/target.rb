@@ -30,7 +30,7 @@ class Target < ApplicationRecord
   reverse_geocoded_by :latitude, :longitude, address: :location
 
   after_validation :reverse_geocode
-  after_create_commit :notify_compatible
+  after_create_commit :notify_and_create_chats
 
   delegate :targets, to: :user, prefix: true
 
@@ -50,9 +50,25 @@ class Target < ApplicationRecord
     errors.add(:targets, I18n.t('model.targets.errors.to_many'))
   end
 
-  def notify_compatible
-    users = near_targets.map(&:user).uniq(&:id)
+  def notify_and_create_chats
+    targets = near_targets
+    return if targets.empty?
 
+    ActiveRecord::Base.transaction do
+      create_chat_rooms_compatibles(targets)
+      notify_compatible(targets)
+    end
+  end
+
+  def create_chat_rooms_compatibles(targets)
+    targets.each do |target|
+      user.own_chat_rooms.create! title: "#{title} - #{target.title}",
+                                  user_guest_id: target.user_id
+    end
+  end
+
+  def notify_compatible(targets)
+    users = targets.map(&:user).uniq(&:id)
     NotificationService.new.send_compatible_target(users, self) unless users.empty?
   end
 end
