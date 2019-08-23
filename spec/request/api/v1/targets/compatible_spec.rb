@@ -45,7 +45,11 @@ describe 'GET api/v1/targets/compatible', type: :request do
               user_id: new_user.id,
               area_lenght: new_target.area_lenght,
               title: new_target.title,
-              topic: new_target.topic,
+              topic:
+              {
+                id: target.topic.id,
+                title: target.topic.title
+              },
               latitude: be_within(decimal_scale).of(new_target.latitude),
               longitude: be_within(decimal_scale).of(new_target.longitude)
             }
@@ -93,8 +97,11 @@ describe 'GET api/v1/targets/compatible', type: :request do
             id: target1.id,
             user_id: user2.id,
             area_lenght: target1.area_lenght,
-            title: target1.title,
-            topic: target1.topic,
+            topic:
+              {
+                id: topic1.id,
+                title: topic1.title
+              },
             latitude: be_within(decimal_scale).of(target1.latitude),
             longitude: be_within(decimal_scale).of(target1.longitude)
           },
@@ -102,8 +109,11 @@ describe 'GET api/v1/targets/compatible', type: :request do
             id: target2.id,
             user_id: user3.id,
             area_lenght: target2.area_lenght,
-            title: target2.title,
-            topic: target2.topic,
+            topic:
+              {
+                id: topic1.id,
+                title: topic1.title
+              },
             latitude: be_within(decimal_scale).of(target2.latitude),
             longitude: be_within(decimal_scale).of(target2.longitude)
           }

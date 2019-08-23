@@ -12,7 +12,7 @@
 
 FactoryBot.define do
   factory :general_information do
-    key { Faker::Lorem.word }
+    key { Faker::Lorem.unique.word }
     title { Faker::Lorem.sentence }
     text { Faker::Lorem.paragraph }
   end

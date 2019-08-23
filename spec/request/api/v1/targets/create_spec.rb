@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe 'Create Targets', type: :request do
   let!(:user) { create(:user, :confirmed) }
+  let!(:topic) { create(:topic) }
   let(:params) do
     {
-      target: attributes_for(:target)
+      target: attributes_for(:target, topic_id: topic.id)
     }
   end
 
@@ -31,7 +32,11 @@ describe 'Create Targets', type: :request do
               user_id: user.id,
               area_lenght: params[:target][:area_lenght],
               title: params[:target][:title],
-              topic: params[:target][:topic],
+              topic:
+              {
+                id: topic.id,
+                title: topic.title
+              },
               latitude: be_within(decimal_scale).of(params[:target][:latitude]),
               longitude: be_within(decimal_scale).of(params[:target][:longitude])
             }
@@ -43,7 +48,7 @@ describe 'Create Targets', type: :request do
         let!(:new_target) do
           build(:target,
                 user: new_user,
-                topic: params[:target][:topic],
+                topic: topic,
                 latitude: params[:target][:latitude] + 0.01,
                 longitude: params[:target][:longitude])
         end
@@ -89,6 +94,21 @@ describe 'Create Targets', type: :request do
     context 'when the request is fail' do
       before do
         params[:target][:title] = ''
+        post api_v1_targets_path, params: params, headers: auth_header
+      end
+
+      it 'is expected an error response' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'is expected an error message' do
+        expect(response.body).to include_json(error: I18n.t('api.errors.invalid_model'))
+      end
+    end
+
+    context "when the topic doesn't exist" do
+      before do
+        params[:target][:topic_id] = 0
         post api_v1_targets_path, params: params, headers: auth_header
       end
 

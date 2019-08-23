@@ -6,34 +6,21 @@
 #  user_id     :bigint           not null
 #  area_lenght :integer          not null
 #  title       :string           not null
-#  topic       :integer          not null
 #  latitude    :float            not null
 #  longitude   :float            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  location    :text
+#  topic_id    :bigint           not null
 #
 
 class Target < ApplicationRecord
   MAX_TARGETS_PER_USER = 10
 
-  enum topic:
-  {
-    football: 0,
-    travel: 1,
-    politics: 2,
-    art: 3,
-    dating: 4,
-    music: 5,
-    movies: 6,
-    series: 7,
-    food: 8
-  }
-
   belongs_to :user
+  belongs_to :topic
 
   validates :area_lenght, :title, presence: true
-  validates :topic, presence: true, inclusion: { in: topics.keys }
   validates :latitude, presence: true,
                        numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
   validates :longitude, presence: true,

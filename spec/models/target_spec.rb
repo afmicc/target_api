@@ -6,12 +6,12 @@
 #  user_id     :bigint           not null
 #  area_lenght :integer          not null
 #  title       :string           not null
-#  topic       :integer          not null
 #  latitude    :float            not null
 #  longitude   :float            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  location    :text
+#  topic_id    :bigint           not null
 #
 
 require 'rails_helper'
@@ -22,19 +22,6 @@ describe Target, type: :model do
 
     it { is_expected.to validate_presence_of(:area_lenght) }
     it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:topic) }
-    it {
-      is_expected.to define_enum_for(:topic)
-        .with_values(football: 0,
-                     travel: 1,
-                     politics: 2,
-                     art: 3,
-                     dating: 4,
-                     music: 5,
-                     movies: 6,
-                     series: 7,
-                     food: 8)
-    }
     it {
       is_expected.to validate_numericality_of(:latitude)
         .is_less_than_or_equal_to(90)
@@ -51,5 +38,6 @@ describe Target, type: :model do
     subject { create(:target) }
 
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:topic) }
   end
 end

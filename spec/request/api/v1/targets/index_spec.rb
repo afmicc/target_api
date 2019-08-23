@@ -16,8 +16,7 @@ describe 'List Targets', type: :request do
       end
 
       it 'is expected that response contains at least one' do
-        body = JSON response.body
-        targets = json_value(body, 'targets')
+        targets = json_value(response.parsed_body, 'targets')
         expect(targets).to_not be_empty
         expect(targets.count).to be(3)
       end

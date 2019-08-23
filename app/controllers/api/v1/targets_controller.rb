@@ -2,7 +2,7 @@ module Api
   module V1
     class TargetsController < ApiController
       def index
-        @targets = user_targets
+        @targets = user_targets.includes(:topic)
       end
 
       def create
@@ -25,7 +25,7 @@ module Api
       private
 
       def target_params
-        params.require(:target).permit(:area_lenght, :title, :topic, :latitude, :longitude)
+        params.require(:target).permit(:area_lenght, :title, :topic_id, :latitude, :longitude)
       end
 
       def user_targets

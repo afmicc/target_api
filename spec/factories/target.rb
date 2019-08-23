@@ -17,9 +17,9 @@
 FactoryBot.define do
   factory :target do
     user
+    topic
     area_lenght { Faker::Number.between(1, 1000) }
     title { Faker::Lorem.word }
-    topic { Target.topics.keys.sample }
     latitude { Faker::Address.latitude }
     longitude { Faker::Address.longitude }
   end
