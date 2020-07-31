@@ -35,7 +35,7 @@ gem 'therubyracer', '~> 0.12.3'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem 'rack-cors', '~> 1.0', '>= 1.0.3'
+gem 'rack-cors', '~> 1.0'
 
 group :development, :test do
   gem 'byebug', '~> 11.0', '>= 11.0.1'
